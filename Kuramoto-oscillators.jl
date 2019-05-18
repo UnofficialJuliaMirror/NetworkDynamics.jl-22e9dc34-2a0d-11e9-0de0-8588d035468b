@@ -9,7 +9,7 @@ using BenchmarkTools
 println("Starting script")
 println(Threads.nthreads())
 
-g = barabasi_albert(10000,5)
+g = barabasi_albert(1000,5)
 
 #= vertex! is basically dv = sum(e_d) - sum(e_s), so basically simple diffusion with the addition
 of staticedge! and odeedge! below. =#
@@ -55,8 +55,11 @@ kuramoto_network!(dx, x0, parameters, 0.)
 
 prob = ODEProblem(kuramoto_network!, x0, (0.,5.), parameters)
 
-@btime sol = solve(prob)
+using Profile
+using ProfileView
 
+@profile sol = solve(prob)
+ProfileView.view()
 # using Plots
 
 # plot(sol, vars=1:10:500)
