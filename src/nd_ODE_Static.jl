@@ -33,10 +33,10 @@ end
 
 function (d::nd_ODE_Static)(dx, x, p::Nothing, t)
     @views begin
-    for i in 1:d.num_e
+    Threads.@threads for i in 1:d.num_e
         d.edges![i](d.e_int[d.e_idx[i]], x[d.s_idx[i]], x[d.d_idx[i]], p, t)
     end
-    for i in 1:d.num_v
+    Threads.@threads for i in 1:d.num_v
         d.vertices![i](dx[d.v_idx[i]], x[d.v_idx[i]], d.e_s[i], d.e_d[i], p, t)
     end
     end
@@ -45,10 +45,10 @@ end
 
 function (d::nd_ODE_Static)(dx, x, p, t)
     @views begin
-    for i in 1:d.num_e
+    Threads.@threads for i in 1:d.num_e
         d.edges![i](d.e_int[d.e_idx[i]], x[d.s_idx[i]], x[d.d_idx[i]], p[d.num_v + i], t)
     end
-    for i in 1:d.num_v
+    Threads.@threads for i in 1:d.num_v
         d.vertices![i](dx[d.v_idx[i]], x[d.v_idx[i]], d.e_s[i], d.e_d[i], p[i], t)
     end
     end

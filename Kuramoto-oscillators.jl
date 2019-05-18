@@ -4,7 +4,12 @@ using LightGraphs
 using LinearAlgebra
 using DifferentialEquations
 
-g = barabasi_albert(500,5)
+using BenchmarkTools
+
+println("Starting script")
+println(Threads.nthreads())
+
+g = barabasi_albert(10000,5)
 
 #= vertex! is basically dv = sum(e_d) - sum(e_s), so basically simple diffusion with the addition
 of staticedge! and odeedge! below. =#
@@ -50,8 +55,8 @@ kuramoto_network!(dx, x0, parameters, 0.)
 
 prob = ODEProblem(kuramoto_network!, x0, (0.,5.), parameters)
 
-sol = solve(prob)
+@btime sol = solve(prob)
 
-using Plots
+# using Plots
 
-plot(sol, vars=1:10:500)
+# plot(sol, vars=1:10:500)
