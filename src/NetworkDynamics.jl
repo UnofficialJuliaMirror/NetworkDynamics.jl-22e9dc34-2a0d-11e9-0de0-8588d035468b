@@ -30,7 +30,7 @@ using DifferentialEquations
 #= network_dynamics: The Main Constructor of the Package. It takes Arrays of Vertex- and Edgefunction + a graph and
 spits out an ODEFunction or DDEFunction. Others still need to be implemented. =#
 
-function network_dynamics(vertices!::Array{ODEVertex,1}, edges!::Array{StaticEdge,1}, graph)
+function network_dynamics(vertices!::Array{O,1}, edges!::Array{E,1}, graph) where O <: ODEVertex where E <: StaticEdge
     @assert length(vertices!) == length(vertices(graph))
     @assert length(edges!) == length(edges(graph))
 
@@ -53,7 +53,7 @@ function network_dynamics(vertices!::Array{ODEVertex,1}, edges!::Array{StaticEdg
 end
 
 
-function network_dynamics(vertices!::Array{ODEVertex}, edges!::Array{ODEEdge}, graph)
+function network_dynamics(vertices!::Array{O,1}, edges!::Array{E,1}, graph) where O <: ODEVertex where E <: ODEEdge
     @assert length(vertices!) == length(vertices(graph))
     @assert length(edges!) == length(edges(graph))
 
